@@ -8,7 +8,7 @@ library(ggplot2)
 
 rm( list = ls() )
 
-dir_name <- 'D:/Studium/Auslandsstudium/TuitionWaver_Master/Masterthesis/Analysis/Exp_Variance/Modelling/sorted/fits'
+dir_name <- 'D:/Studium/Auslandsstudium/TuitionWaver_Master/Masterthesis/github/uncertainty-goofiness-study/fits'
 
 f_names <- list.files(paste(dir_name, sep=''),
            pattern=paste('fit_2state_bcee*'),

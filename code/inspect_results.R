@@ -4,14 +4,14 @@ library(ggpubr)
 
 rm( list = ls() )
 
-setwd('D:/Studium/Auslandsstudium/TuitionWaver_Master/Masterthesis/Analysis/Exp_Variance/Modelling/sorted/code')
+setwd('D:/Studium/Auslandsstudium/TuitionWaver_Master/Masterthesis/github/uncertainty-goofiness-study/code')
 # # ------------------------------------------------------------------------------------------------------------
 
 # # Extracting csv files for SubjData
 # ----------------------------------- 
-# setwd("../../../MatlabAnalysis/AnalysisData/Exp_Variance_MissingsReplaced_CorrectRTs")
+# setwd("../preprocessing/MatlabAnalysisData")
 # 
-# dir_name <- "../../../Modelling/sorted/data"
+# dir_name <- "../../data"
 # 
 # 
 # # Extracting csv files for SubjData
@@ -27,7 +27,7 @@ setwd('D:/Studium/Auslandsstudium/TuitionWaver_Master/Masterthesis/Analysis/Exp_
 # }
 # 
 # rm( list = ls() )
-# setwd("../../../Modelling/sorted/code")
+# setwd("../code")
 # # ------------------------------------------------------------------------------------------------------------
 
 # Transform Dataframe Subject Main Data

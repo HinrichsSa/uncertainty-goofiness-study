@@ -13,7 +13,7 @@ import seaborn as sbn
 
 
 # NOTE: Adapt this path accordingly
-os.chdir('D:\Studium\Auslandsstudium\TuitionWaver_Master\Masterthesis\Analysis\Exp_Variance\Modelling\sorted\code')
+os.chdir('D:\Studium\Auslandsstudium\TuitionWaver_Master\Masterthesis\github\uncertainty-goofiness-study\code')
 
 
 # NOTE: Create Figure for illustration of hypotheses

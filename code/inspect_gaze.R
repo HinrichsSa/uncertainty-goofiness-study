@@ -4,13 +4,13 @@ library(tidyverse)
 library(ggpubr)
 
 rm( list = ls() )
-setwd('D:/Studium/Auslandsstudium/TuitionWaver_Master/Masterthesis/Analysis/Exp_Variance/Modelling/sorted/code')
+setwd('D:/Studium/Auslandsstudium/TuitionWaver_Master/Masterthesis/github/uncertainty-goofiness-study/code')
 # --------------------------------------------------------------------------------------------------------------
 
 # # Extracting csv files for GazeData
 # # ---------------------------------
-# setwd("../../../MatlabAnalysis/AnalysisData/Exp_Variance_MissingsReplaced_CorrectRTs")
-# dir_name <- "../../../Modelling/sorted/data"
+# setwd("../preprocessing/MatlabAnalysisData")
+# dir_name <- "../../data"
 # 
 # myfolders <- list.dirs(recursive = FALSE)
 # myfolders <- myfolders[1:8]
@@ -22,7 +22,7 @@ setwd('D:/Studium/Auslandsstudium/TuitionWaver_Master/Masterthesis/Analysis/Exp_
 #     }
 # }
 # 
-# setwd("../../../Modelling/sorted/code")
+# setwd("../code")
 # # ---------------------------------------------------------------------------------------------------------------
 
 # Transform Dataframe Gaze Data
