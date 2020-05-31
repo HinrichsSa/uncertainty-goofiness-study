@@ -1,4 +1,4 @@
-function [imv, endpoint, velocity, distance, time, reaction_time, max_vel] = Find_endpoint(X,Y,target)
+function [imv, endpoint, velocity, distance, time, reaction_time, max_vel] = Variables(X,Y,target)
     
     %Hard code targets
     start_target =  [0,0.2];

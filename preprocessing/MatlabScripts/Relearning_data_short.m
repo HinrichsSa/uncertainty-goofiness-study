@@ -48,6 +48,41 @@ for i = 1:target_num
     % Loading the c3d files
     Relearning_Target{i} = c3d_load(['*_' num_c3d{i} '_*.c3d']);
     
+    for ii = 1:trial_num
+        x = Relearning_Target{i}(ii).Gaze_X;
+        y = Relearning_Target{i}(ii).Gaze_Y;
+        t = Relearning_Target{i}(ii).Gaze_TimeStamp;
+        trial = Relearning_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
+        target = str2num(Relearning_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
+        Gaze_Relearning = [Gaze_Relearning; trial target x y t];
+    end
+    
+    for ii = 1:trial_num
+        x = Relearning_Target{i}(ii).Right_HandX;
+        y = Relearning_Target{i}(ii).Right_HandY;
+        trial = Relearning_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
+        target = str2num(Relearning_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
+        Traj_Relearning = [Traj_Relearning; trial target x y];
+    end      
+    
+    % Target Index    
+    target_temp = []
+    for ii = 1:trial_num
+        Relearning_Target_num_temp = Relearning_Target{i}(ii).FILE_NAME;
+        Relearning_Target_num_temp = Relearning_Target_num_temp(4:5);
+        Relearning_Target_num_temp = str2num(Relearning_Target_num_temp);
+        target_temp = [target_temp; Relearning_Target_num_temp];
+    end
+    idx_target_num = [idx_target_num; target_temp];
+    
+    % Trial Index
+    trial_temp = []
+    for ii = 1:trial_num
+        Relearning_Trial_idx_temp = Relearning_Target{i}(ii).TRIAL(1).TRIAL_NUM
+        trial_temp = [trial_temp; Relearning_Trial_idx_temp];
+    end
+    idx_trial_num = [idx_trial_num; trial_temp];
+    
     % Trajectory data for X and Y
     Relearning_X_temp = UnpackField('Right_HandX', Relearning_Target{i});
     Relearning_X = [Relearning_X; Relearning_X_temp];
@@ -104,20 +139,20 @@ num_Relearning_Excluded_endpoints = sum(idx_Relearning_Excluded_endpoints(:,1));
 
 %--------------------------------------------------------------------------
 %% Create Index colums for Trial and Target to add to the tables
-for j = 1:target_num
-    for k = 1:trial_num
-        idx_trial_num = [idx_trial_num k];
-        idx_target_num = [idx_target_num j];
-    end
-end
+% for j = 1:target_num
+%     for k = 1:trial_num
+%         idx_trial_num = [idx_trial_num k];
+%         idx_target_num = [idx_target_num j];
+%     end
+% end
 
 %--------------------------------------------------------------------------
 %% Variables we may want to export to csv files later on
 Velocity_Relearning = [idx_velocity Velocity_Relearning];
-Traj_Relearning = [Relearning_X Relearning_Y];
-Gaze_Relearning = [Relearning_Gaze_X Relearning_Gaze_Y];
-Subject_Data_Relearning = [idx_target_num'...
-    idx_trial_num'... 
+% Traj_Relearning = [Relearning_X Relearning_Y];
+% Note: Gaze_Relearning is created at the top
+Subject_Data_Relearning = [idx_target_num...
+    idx_trial_num... 
     Relearning_rotation...
     Relearning_imv...  
     Relearning_endpoints...

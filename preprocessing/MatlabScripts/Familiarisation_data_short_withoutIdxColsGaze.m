@@ -47,23 +47,6 @@ for i = 1:target_num
     % Loading the c3d files
     Familiarisation_Target{i} = c3d_load(['*_' num_c3d{i} '_*.c3d']);
     
-    for ii = 1:trial_num
-        x = Familiarisation_Target{i}(ii).Gaze_X;
-        y = Familiarisation_Target{i}(ii).Gaze_Y;
-        t = Familiarisation_Target{i}(ii).Gaze_TimeStamp;
-        trial = Familiarisation_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
-        target = str2num(Familiarisation_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
-        Gaze_Familiarisation = [Gaze_Familiarisation; trial target x y t];
-    end
-    
-    for ii = 1:trial_num
-        x = Familiarisation_Target{i}(ii).Right_HandX;
-        y = Familiarisation_Target{i}(ii).Right_HandY;
-        trial = Familiarisation_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
-        target = str2num(Familiarisation_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
-        Traj_Familiarisation = [Traj_Familiarisation; trial target x y];
-    end     
-    
     % Target Index    
     target_temp = []
     for ii = 1:trial_num
@@ -148,8 +131,8 @@ num_Familiarisation_Excluded_endpoints = sum(idx_Familiarisation_Excluded_endpoi
 %--------------------------------------------------------------------------
 %% Variables we may want to export to csv files later on
 Velocity_Familiarisation = [idx_velocity Velocity_Familiarisation];
-% Traj_Familiarisation = [Familiarisation_X Familiarisation_Y];
-% NOTE: Gaze_Familiarisation is created at the top
+Traj_Familiarisation = [Familiarisation_X Familiarisation_Y];
+Gaze_Familiarisation = [Familiarisation_Gaze_X Familiarisation_Gaze_Y];
 Subject_Data_Familiarisation = [idx_target_num...
     idx_trial_num...
     Familiarisation_rotation...

@@ -47,6 +47,41 @@ for i = 1:target_num
     % Loading the c3d files
     Generalisation_Target{i} = c3d_load(['*_' num_c3d{i} '_*.c3d']);
     
+    for ii = 1:trial_num
+        x = Generalisation_Target{i}(ii).Gaze_X;
+        y = Generalisation_Target{i}(ii).Gaze_Y;
+        t = Generalisation_Target{i}(ii).Gaze_TimeStamp;
+        trial = Generalisation_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
+        target = str2num(Generalisation_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
+        Gaze_Generalisation = [Gaze_Generalisation; trial target x y t];
+    end
+    
+    for ii = 1:trial_num
+        x = Generalisation_Target{i}(ii).Right_HandX;
+        y = Generalisation_Target{i}(ii).Right_HandY;
+        trial = Generalisation_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
+        target = str2num(Generalisation_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
+        Traj_Generalisation = [Traj_Generalisation; trial target x y];
+    end      
+    
+    % Target Index    
+    target_temp = []
+    for ii = 1:trial_num
+        Generalisation_Target_num_temp = Generalisation_Target{i}(ii).FILE_NAME;
+        Generalisation_Target_num_temp = Generalisation_Target_num_temp(4:5);
+        Generalisation_Target_num_temp = str2num(Generalisation_Target_num_temp);
+        target_temp = [target_temp; Generalisation_Target_num_temp];
+    end
+    idx_target_num = [idx_target_num; target_temp];
+    
+    % Trial Index
+    trial_temp = []
+    for ii = 1:trial_num
+        Generalisation_Trial_idx_temp = Generalisation_Target{i}(ii).TRIAL(1).TRIAL_NUM
+        trial_temp = [trial_temp; Generalisation_Trial_idx_temp];
+    end
+    idx_trial_num = [idx_trial_num; trial_temp];    
+    
     % Trajectory data for X and Y
     Generalisation_X_temp = UnpackField('Right_HandX', Generalisation_Target{i});
     Generalisation_X = [Generalisation_X; Generalisation_X_temp];
@@ -103,20 +138,20 @@ num_Generalisation_Excluded_endpoints = sum(idx_Generalisation_Excluded_endpoint
 
 %--------------------------------------------------------------------------
 %% Create Index colums for Trial and Target to add to the tables
-for j = 1:target_num
-    for k = 1:trial_num
-        idx_trial_num = [idx_trial_num k];
-        idx_target_num = [idx_target_num j];
-    end
-end
+% for j = 1:target_num
+%     for k = 1:trial_num
+%         idx_trial_num = [idx_trial_num k];
+%         idx_target_num = [idx_target_num j];
+%     end
+% end
 
 %--------------------------------------------------------------------------
 %% Variables we may want to export to csv files later on
 Velocity_Generalisation = [idx_velocity Velocity_Generalisation];
-Traj_Generalisation = [Generalisation_X Generalisation_Y];
-Gaze_Generalisation = [Generalisation_Gaze_X Generalisation_Gaze_Y];
-Subject_Data_Generalisation = [idx_target_num'...
-    idx_trial_num'...
+% Traj_Generalisation = [Generalisation_X Generalisation_Y];
+% NOTE: Gaze_Generalisation is created at the top
+Subject_Data_Generalisation = [idx_target_num...
+    idx_trial_num...
     Generalisation_rotation...
     Generalisation_imv...
     Generalisation_endpoints...

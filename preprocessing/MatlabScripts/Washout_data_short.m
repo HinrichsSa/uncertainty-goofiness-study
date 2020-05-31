@@ -48,6 +48,41 @@ for i = 1:target_num
     % Loading the c3d files
     Washout_Target{i} = c3d_load(['*_' num_c3d{i} '_*.c3d']);
     
+    for ii = 1:trial_num
+        x = Washout_Target{i}(ii).Gaze_X;
+        y = Washout_Target{i}(ii).Gaze_Y;
+        t = Washout_Target{i}(ii).Gaze_TimeStamp;
+        trial = Washout_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
+        target = str2num(Washout_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
+        Gaze_Washout = [Gaze_Washout; trial target x y t];
+    end
+    
+    for ii = 1:trial_num
+        x = Washout_Target{i}(ii).Right_HandX;
+        y = Washout_Target{i}(ii).Right_HandY;
+        trial = Washout_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
+        target = str2num(Washout_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
+        Traj_Washout = [Traj_Washout; trial target x y];
+    end          
+    
+    % Target Index    
+    target_temp = []
+    for ii = 1:trial_num
+        Washout_Target_num_temp = Washout_Target{i}(ii).FILE_NAME;
+        Washout_Target_num_temp = Washout_Target_num_temp(4:5);
+        Washout_Target_num_temp = str2num(Washout_Target_num_temp);
+        target_temp = [target_temp; Washout_Target_num_temp];
+    end
+    idx_target_num = [idx_target_num; target_temp];
+    
+    % Trial Index
+    trial_temp = []
+    for ii = 1:trial_num
+        Washout_Trial_idx_temp = Washout_Target{i}(ii).TRIAL(1).TRIAL_NUM
+        trial_temp = [trial_temp; Washout_Trial_idx_temp];
+    end
+    idx_trial_num = [idx_trial_num; trial_temp];
+    
     % Trajectory data for X and Y
     Washout_X_temp = UnpackField('Right_HandX', Washout_Target{i});
     Washout_X = [Washout_X; Washout_X_temp];
@@ -108,20 +143,20 @@ num_Washout_Excluded_endpoints = sum(idx_Washout_Excluded_endpoints(:,1));
 
 %--------------------------------------------------------------------------
 %% Create Index colums for Trial and Target to add to the tables
-for j = 1:target_num
-    for k = 1:trial_num
-        idx_trial_num = [idx_trial_num k];
-        idx_target_num = [idx_target_num j];
-    end
-end
+% for j = 1:target_num
+%     for k = 1:trial_num
+%         idx_trial_num = [idx_trial_num k];
+%         idx_target_num = [idx_target_num j];
+%     end
+% end
 
 %--------------------------------------------------------------------------
 %% Variables we may want to export to csv files later on
 Velocity_Washout = [idx_velocity Velocity_Washout];
-Traj_Washout = [Washout_X Washout_Y];
-Gaze_Washout = [Washout_Gaze_X Washout_Gaze_Y];
-Subject_Data_Washout = [idx_target_num'...
-    idx_trial_num'...
+% Traj_Washout = [Washout_X Washout_Y];
+% NOTE: Gaze_Washout is created at the top
+Subject_Data_Washout = [idx_target_num...
+    idx_trial_num...
     Washout_rotation...
     Washout_imv...
     Washout_endpoints...

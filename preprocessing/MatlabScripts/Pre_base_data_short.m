@@ -46,6 +46,41 @@ for i = 1:target_num
     
     % Loading the c3d files
     Pre_base_Target{i} = c3d_load(['*_' num_c3d{i} '_*.c3d']);
+
+    for ii = 1:trial_num
+        x = Pre_base_Target{i}(ii).Gaze_X;
+        y = Pre_base_Target{i}(ii).Gaze_Y;
+        t = Pre_base_Target{i}(ii).Gaze_TimeStamp;
+        trial = Pre_base_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
+        target = str2num(Pre_base_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
+        Gaze_Pre_base = [Gaze_Pre_base; trial target x y t];
+    end    
+
+    for ii = 1:trial_num
+        x = Pre_base_Target{i}(ii).Right_HandX;
+        y = Pre_base_Target{i}(ii).Right_HandY;
+        trial = Pre_base_Target{i}(ii).TRIAL(1).TRIAL_NUM * ones(size(x));
+        target = str2num(Pre_base_Target{i}(ii).FILE_NAME(4:5)) * ones(size(x));
+        Traj_Pre_base = [Traj_Pre_base; trial target x y];
+    end        
+    
+    % Target Index    
+    target_temp = []
+    for ii = 1:trial_num
+        Pre_base_Target_num_temp = Pre_base_Target{i}(ii).FILE_NAME;
+        Pre_base_Target_num_temp = Pre_base_Target_num_temp(4:5);
+        Pre_base_Target_num_temp = str2num(Pre_base_Target_num_temp);
+        target_temp = [target_temp; Pre_base_Target_num_temp];
+    end
+    idx_target_num = [idx_target_num; target_temp];
+    
+    % Trial Index
+    trial_temp = []
+    for ii = 1:trial_num
+        Pre_base_Trial_idx_temp = Pre_base_Target{i}(ii).TRIAL(1).TRIAL_NUM
+        trial_temp = [trial_temp; Pre_base_Trial_idx_temp];
+    end
+    idx_trial_num = [idx_trial_num; trial_temp];
     
     % Trajectory data for X and Y
     Pre_base_X_temp = UnpackField('Right_HandX', Pre_base_Target{i});
@@ -103,20 +138,20 @@ num_Pre_base_Excluded_endpoints = sum(idx_Pre_base_Excluded_endpoints(:,1));
 
 %--------------------------------------------------------------------------
 %% Create Index colums for Trial and Target to add to the tables
-for j = 1:target_num
-    for k = 1:trial_num
-        idx_trial_num = [idx_trial_num k];
-        idx_target_num = [idx_target_num j];
-    end
-end
+% for j = 1:target_num
+%     for k = 1:trial_num
+%         idx_trial_num = [idx_trial_num k];
+%         idx_target_num = [idx_target_num j];
+%     end
+% end
 
 %--------------------------------------------------------------------------
 %% Variables we may want to export to csv files later on
 Velocity_Pre_base = [idx_velocity Velocity_Pre_base];
-Traj_Pre_base = [Pre_base_X Pre_base_Y];
-Gaze_Pre_base = [Pre_base_Gaze_X Pre_base_Gaze_Y];
-Subject_Data_Pre_base = [idx_target_num'...
-    idx_trial_num'...
+% Traj_Pre_base = [Pre_base_X Pre_base_Y];
+% NOTE: Gaze_Pre_base is created at the top
+Subject_Data_Pre_base = [idx_target_num...
+    idx_trial_num...
     Pre_base_rotation...
     Pre_base_imv...
     Pre_base_endpoints...
